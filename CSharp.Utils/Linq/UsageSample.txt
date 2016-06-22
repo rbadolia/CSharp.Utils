@@ -1,0 +1,24 @@
+http://stackoverflow.com/questions/389094/how-to-create-a-dynamic-linq-join-extension-method#412868
+
+DataTable t1 = new DataTable();   
+t1.Columns.Add("FundId", typeof(int));   
+t1.Columns.Add("Date", typeof(DateTime));   
+t1.Columns.Add("CodeA", typeof(string));   
+t1.Rows.Add(1, new DateTime(2012, 01, 01), "A1");   
+t1.Rows.Add(2, new DateTime(2012, 01, 01), "A2");   
+t1.Rows.Add(3, new DateTime(2012, 01, 01), "A3");    
+DataTable t2 = new DataTable();   
+t2.Columns.Add("FundId", typeof(int));   
+t2.Columns.Add("Date", typeof(DateTime));   
+t2.Columns.Add("CodeB", typeof(string));   
+t2.Rows.Add(1, new DateTime(2012, 01, 01), "B1");   
+t2.Rows.Add(2, new DateTime(2012, 01, 01), "B2");   
+t2.Rows.Add(3, new DateTime(2012, 01, 01), "B3");    
+
+IQueryable outerTable = t1.AsEnumerable().AsQueryable();   
+IEnumerable innerTable = t2.AsEnumerable();    
+var query = outerTable.Join(innerTable,        
+	"new(get_Item(0) as FundId, get_Item(1) as Date)",       
+	"new(get_Item(0) as FundId, get_Item(1) as Date)",       
+	"new(outer.get_Item(0) as FundId, outer.get_Item(2) as CodeA, inner.get_Item(2) as CodeB)"     
+); 

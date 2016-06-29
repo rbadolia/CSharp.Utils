@@ -71,7 +71,7 @@ namespace CSharp.Utils.Threading
                     {
                         if (_defaultInstance == null)
                         {
-                            _defaultInstance = new IntervalMultiTask(false);
+                            _defaultInstance = new IntervalMultiTask(true);
                         }
                     }
                 }
@@ -230,7 +230,6 @@ namespace CSharp.Utils.Threading
             finally
             {
                 this._lock.ExitReadLock();
-                this._lock.Dispose();
             }
         }
 
